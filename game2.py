@@ -55,7 +55,7 @@ buff = {
 debuff = {
 	'x': (screen['width'] / 4),
 	'y': 32,
-	'speed': 3,
+	'speed': 1,
 	'direction': "E",
 	'damage': 20,
 }
@@ -79,7 +79,7 @@ lose_sound = pygame.mixer.Sound('sounds/lose.wav')
 
 # framerate/timer
 tick = 0
-timer = 0
+time = 0
 
 # game on
 game_on = True
@@ -113,11 +113,13 @@ def hero_move():
 		hero['x'] += hero['speed']
 	elif (keys_down['left'] and hero['x'] > 0):
 		hero['x'] -= hero['speed']
-def framerate(frame, time):
-	frame += 1
-	if (frame % 60 == 0):
+def framerate():
+	global tick
+	global time
+	tick += 1
+	if (tick % 60 == 0):
 		time += 1
-	print frame
+	print tick
 	print time
 def evil_move(enemytype):
 	if (enemytype['direction'] == 'N'):
@@ -156,12 +158,14 @@ def evil_move(enemytype):
 # def collision(hero, enemy)
 while game_on:
 	tick += 1
+	# if (tick % 60 == 0):
+	# 	time += 1
+	framerate()
 	for event in pygame.event.get():
 			if event.type == pygame.QUIT:
 				game_on = False
 	keypress()
 	hero_move()
-	framerate(tick, timer)
 	evil_move(enemy)
 	evil_move(buff)
 
@@ -207,8 +211,8 @@ while game_on:
 		lose_sound.play()
 
 
-	elif (distance_between_debuff > 100):
-		if (distance_between_debuff > 32):
+	elif (distance_between_debuff > 0):
+		if (distance_between_debuff > 0):
 			if (debuff['x'] > hero['x']):
 				debuff['x'] -= debuff['speed']
 			elif (debuff['x'] < hero['x']):
@@ -251,7 +255,7 @@ while game_on:
 	pygame_screen.blit(health_text, [40, 80])
 
 	font = pygame.font.Font(None, 25)
-	timer_text = font.render("Time Elapsed: %d" % timer, True, (0,0,0))
+	timer_text = font.render("Time Elapsed: %d" % time, True, (0,0,0))
 	pygame_screen.blit(timer_text, [40, 100])
 
 # 	to clear the screen for next time

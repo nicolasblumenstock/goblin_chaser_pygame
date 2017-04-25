@@ -323,7 +323,7 @@ while game_on:
 		if (hero['health'] < 100):
 			hero['health'] += mushroom['heal']
 
-	distance_between_death = fabs(hero['x'] - death['x']) + fabs(death['y'] - death['y'])
+	distance_between_death = fabs(hero['x'] - death['x']) + fabs(hero['y'] - death['y'])
 	if (distance_between_death < 32):
 		rand_spawn_x_death = randint(0, screen['width'] - 100)
 		rand_spawn_y_death = randint(0, screen['height'] - 100)		
@@ -342,7 +342,7 @@ while game_on:
 
 
 	elif (distance_between_death > 100):
-		if (distance_between_death > 32):
+		if (distance_between_death > 5):
 			if (death['x'] > hero['x']):
 				death['x'] -= death['speed']
 			elif (death['x'] < hero['x']):
